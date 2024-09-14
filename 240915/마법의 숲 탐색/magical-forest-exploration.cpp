@@ -179,7 +179,7 @@ void move() {
 	cnt++;
 	int n_row, n_col;
 	n_col = start;
-	n_row = 0;
+	n_row = -1;
 
 	//최대로 내려갈 때까지 반복
 	while (1) {
@@ -222,9 +222,11 @@ void move() {
 		//출구 표시
 		map[n_row + d[golem][0]][n_col + d[golem][1]] = 1000+cnt;
 		//print();
+		//cout << endl;
 
 		//정령 이동 시작
 		result += BFS(n_row, n_col);
+		// cout << "result " << result << endl;
 
 		break;
 	}

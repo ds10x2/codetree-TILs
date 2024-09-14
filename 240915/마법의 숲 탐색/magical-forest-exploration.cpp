@@ -66,7 +66,7 @@ void reset() {
 	for (int r = 0; r <= row; r++)
 		map[r][0] = 1;
 	for (int c = 0; c <= col; c++)
-		map[0][c] = 1;
+		map[0][c] = 0;
 	for (int r = 1; r <= row; r++)
 		for (int c = 1; c <= col; c++) 
 			map[r][c] = 0;
@@ -225,6 +225,7 @@ void move() {
 
 		//정령 이동 시작
 		result += BFS(n_row, n_col);
+
 		break;
 	}
 

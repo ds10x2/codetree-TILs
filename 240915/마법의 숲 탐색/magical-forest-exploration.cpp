@@ -35,11 +35,11 @@ using namespace std;
 
 int row, col; //마법의 숲 크기
 int go_cnt; //정령의 수
-int map[71][71]; //마법의 숲
+int map[73][73]; //마법의 숲
 int start, golem; //출발 열, 골렘의 출구 방향
 int result;
 int cnt;
-bool visited[71][71];
+bool visited[73][73];
 
 int d[4][2] = { {-1, 0}, {0, 1}, {1, 0}, {0, -1} }; //북동남서
 
@@ -59,6 +59,8 @@ void print() {
 //마법의 숲 크기와 정령의 수 입력 받음
 void input() {
 	cin >> row >> col >> go_cnt;
+	row += 2;
+	col += 2;
 }
 
 //초기화
@@ -141,7 +143,7 @@ bool can_move_south(int r, int c) {
 }
 
 bool can_move_west(int r, int c) {
-	if (r + 1 >= row || c - 2 <= 0) return false;
+	if (r + 1 >= row || c - 2 <= 2) return false;
 
 	//서쪽으로 한칸 이동 후 남쪽으로 한 칸 이동 가능한지 확인
 	//서쪽으로 이동 가능한지 확인
@@ -178,8 +180,8 @@ void move() {
 	cin >> start >> golem;
 	cnt++;
 	int n_row, n_col;
-	n_col = start;
-	n_row = -1;
+	n_col = start + 2;
+	n_row = 0;
 
 	//최대로 내려갈 때까지 반복
 	while (1) {
@@ -210,7 +212,7 @@ void move() {
 
 		//더이상 이동이 불가능함
 		//골렘 일부가 숲 밖에 있음
-		if (n_row <= 1) {
+		if (n_row <= 2) {
 			reset();
 			break;
 		}
@@ -222,10 +224,10 @@ void move() {
 		//출구 표시
 		map[n_row + d[golem][0]][n_col + d[golem][1]] = 1000+cnt;
 		//print();
-		//cout << endl;
+		// cout << endl;
 
 		//정령 이동 시작
-		result += BFS(n_row, n_col);
+		result += (BFS(n_row, n_col)-2);
 		// cout << "result " << result << endl;
 
 		break;

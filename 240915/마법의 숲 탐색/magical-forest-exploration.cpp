@@ -29,24 +29,26 @@ row col 정령의 수
 3: 서
 */
 
+
+
 #include <iostream>
 #include <queue>
 using namespace std;
 
 int row, col; //마법의 숲 크기
 int go_cnt; //정령의 수
-int map[73][73]; //마법의 숲
+int map[73][71]; //마법의 숲
 int start, golem; //출발 열, 골렘의 출구 방향
 int result;
 int cnt;
-bool visited[73][73];
+bool visited[73][71];
 
 int d[4][2] = { {-1, 0}, {0, 1}, {1, 0}, {0, -1} }; //북동남서
 
 queue <pair<int, int>> q; // {row, col}
 
 void print() {
-	for (int r = 1; r <= row; r++) {
+	for (int r = 3; r <= row; r++) {
 		for (int c = 1; c <= col; c++) {
 			cout.width(5);
 			cout << map[r][c] << " ";
@@ -60,25 +62,20 @@ void print() {
 void input() {
 	cin >> row >> col >> go_cnt;
 	row += 2;
-	col += 2;
 }
 
 //초기화
 void reset() {
 	for (int r = 0; r <= row; r++)
-		map[r][0] = 1;
-	for (int c = 0; c <= col; c++)
-		map[0][c] = 0;
-	for (int r = 1; r <= row; r++)
-		for (int c = 1; c <= col; c++) 
+		for (int c = 0; c <= col; c++) 
 			map[r][c] = 0;
 
 
 }
 
 void reset_visited() {
-	for (int r = 1; r <= row; r++)
-		for (int c = 1; c <= col; c++)
+	for (int r = 0; r <= row; r++)
+		for (int c = 0; c <= col; c++)
 			visited[r][c] = false;
 }
 
@@ -101,7 +98,7 @@ int BFS(int r, int c) {
 			int nx = x + d[idx][0];
 			int ny = y + d[idx][1];
 
-			if (nx < 1 || nx > row || ny < 1 || ny > col) continue;
+			if (nx < 2 || nx > row || ny < 2 || ny > col) continue;
 			if (visited[nx][ny]) continue;
 			if (map[nx][ny] == 0) continue;
 
@@ -143,7 +140,7 @@ bool can_move_south(int r, int c) {
 }
 
 bool can_move_west(int r, int c) {
-	if (r + 1 >= row || c - 2 <= 2) return false;
+	if (r + 1 >= row || c - 2 <= 0) return false;
 
 	//서쪽으로 한칸 이동 후 남쪽으로 한 칸 이동 가능한지 확인
 	//서쪽으로 이동 가능한지 확인
@@ -180,8 +177,8 @@ void move() {
 	cin >> start >> golem;
 	cnt++;
 	int n_row, n_col;
-	n_col = start + 2;
-	n_row = 0;
+	n_col = start;
+	n_row = 1;
 
 	//최대로 내려갈 때까지 반복
 	while (1) {
@@ -212,7 +209,7 @@ void move() {
 
 		//더이상 이동이 불가능함
 		//골렘 일부가 숲 밖에 있음
-		if (n_row <= 2) {
+		if (n_row <= 3) {
 			reset();
 			break;
 		}
@@ -223,7 +220,7 @@ void move() {
 		}
 		//출구 표시
 		map[n_row + d[golem][0]][n_col + d[golem][1]] = 1000+cnt;
-		//print();
+		// print();
 		// cout << endl;
 
 		//정령 이동 시작
@@ -235,6 +232,7 @@ void move() {
 
 
 }
+
 int main() {
 
 	input();
